@@ -1,0 +1,289 @@
+FMS --> 
+---
+  - Data Redundancy --> Data Inconsistency
+  - Data Retrieval not efficient --> Sequencial Access
+  - Data not secured
+  - Data Integrity was difficult to maintain
+  - Concurrent Access was difficult
+
+
+DEPT.txt
+---------
+10	Accounts	Mumbai
+20	Mktg.		Delhi
+30	IT		Pune
+40	Research	Pune
+
+
+
+EMP.txt
+-------
+101	Dipali		Manager		10000	10
+102	Saurabh		Analyst		20000	20
+103	Brahmani	Developer	20000	20
+104	Sahil		Analyst		30000	30
+105	Rakesh		Manager		50000	10
+101	Aniket		Developer	25000	20
+107	xxx		manager		20000	50
+...
+
+
+DBMS
+
+RDBMS --> Dr. E.F.Codd --> 12 Rules
+
+- MySQL
+- Oracle
+- PostGres
+- SQLite
+- DB2
+- SQL Server
+
+DEPT (Parent)
+----
+PK
+deptno	dname		loc
+------	--------	------
+10	Accounts	Mumbai
+20	Mktg.		Delhi
+30	IT		Pune
+40	Research	Pune
+
+
+
+EMP (Child)	--> Table / Schema / Entity Set / Relation
+---						
+PK						FK (EMp(EMPNO)	FK (DEPT(DEPTNO))
+empno	ename		job		sal	mgrno		deptno  --> columns / attributes		Phones
+-----	-------		---------	-----	------		------						------
+101	Dipali		President	10000			10	--> Record / Row / Entity / Tupple	11111
+														22222
+														33333
+102	Saurabh		Analyst		20000	101		20
+103	Brahmani	Developer	20000	101		20
+104	Sahil		Analyst		30000	102		30
+105	Rakesh		Manager		50000	103
+106	Aniket		Developer	25000	103		10
+107	xxx		manager		20000	102
+108	Mansi		Developer	30000			20
+
+
+1. Presentation Rule --> data should be displayed in a tabular form
+
+3. Systematic Treatment of Null Values
+
+   Null --> Empty, blank , undefined, unspecified, not a value --> diff from 0s and spaces
+
+   a = 5
+   b = 2
+   c = null
+   d = 10
+   e = null
+   a + b * c / d
+       -----
+   a + null / d
+       --------
+   a + null
+   --------
+   null
+
+   if b > c --> null
+     ....
+
+   if c = e ---> null
+      ....
+
+
+
+
+
+
+Users
+-----
+- End User
+- Application Programmer
+- Database Administrator (DBA)
+
+Data Abstraction
+----------------
+- Hiding certain info and showing only essential info
+
+Data Independence
+-----------------
+- Pysical --> 100% achieved
+- Logical --> 
+
+Data Model --> tools to describe the logical structure of the DB (Schema)
+				     ---------------------------
+  - Logically Implemented --> ER Diagram --> Documentation
+  - Physically Implemented
+	- Hierarchical  Model
+	- Network Model
+	- Relational Model
+
+Relationships
+-------------
+- 1 to 1	--> Oracle DB and Oracle Instance	
+- 1 to Many	--> Server and Clients, Train and Passengers
+- Many to 1	
+- Many to Many	--> Item and Vendor, Course and Students
+
+Keys
+----
+- Primary Key --> used to identify each record uniquely in a table --> does not allow duplicates , does not allow null
+- Foreign Key --> to relate two tables --> fk refers pk or unique key
+- Unique Key
+- Composite Key
+
+
+STUDENT			COURSE		STUD_COURSE (Mapping Table) --> PK(S_RNO, C_ID) --> Composite PK
+-------			-------		-----------
+S_RNO (PK)		C_ID  (PK)	S_RNO (FK)
+S_NAME			C_DESC		C_ID (FK)
+....			C_DUR		ST_DATE
+			...		END_DATE
+
+
+s-101	c-101	..	..
+s-102	c-101	..	..
+s-101	c-102	...	..
+s-101	c-101
+
+
+T1
+--
+a b c d
+
+
+a (PK)
+a, b
+a, c
+a, d
+
+Integrity Constraints (Business Rules) --> given at column level or table level
+----------------------
+- Domain Integrity Constraints
+  - Not Null
+  - Check
+- Entity Integrity Constraints
+  - Unique
+  - Primary Key
+- Referential Integrity Constraints
+  - Foreign Key
+    - Behaviour
+      ---------
+  	- Restrict --> By default
+	- Cascade
+	- Nullify
+    - Keywords
+      --------
+	- FOREIGN KEY  --> Table Level
+	- REFERENCES
+
+
+Normalization --> Step by step process of splitting the info into multiple tables to reduce the redundancy
+-------------
+
+- Anomalies
+  ---------
+  - Insert Anomaly
+  - Update Anomaly
+  - Delete Anomaly
+
+Normal Forms
+------------
+- 1NF --> All atomic values, all pks should be decided
+
+  EMP_PROJ(PROJ#, PROJ_NAME, EMP#, EMP_NAME, JOB_CLASS, CHRGS_HOUR, HOURS)  PK(PROJ#, EMP#)
+
+- 2NF --> No Partial Dependecy
+
+  EMP_PROJ(PROJ# (FK), EMP# (FK), HOURS)  PK(PROJ#, EMP#)
+  PROJECT(PROJ# (PK), PROJ_NAME)
+  EMPLOYEE(EMP# (PK), EMP_NAME, JOB_CLASS, CHRGS_HOUR)
+
+- 3NF --> No Transitive Dependency
+
+  EMP_PROJ(PROJ# (FK), EMP# (FK), HOURS)  PK(PROJ#, EMP#)
+  PROJECT(PROJ# (PK), PROJ_NAME)
+  EMPLOYEE(EMP# (PK), EMP_NAME, JOB_CLASS (FK))
+  JOBS(JOB_CLASS(PK), CHRGS_HOUR)
+
+- BCNF
+- 4NF
+- 5NF
+
+Functional Dependency --> all non-key attributes should depend on key attributes
+---------------------
+T1
+--
+a (PK),  b,  c,  d
+
+a --> b
+a --> c
+a --> d
+
+T1 
+--
+a,  b,  c,  d --> PK(a, b)
+
+a,b --> c --> Full dependency
+a --> d --> Partial dependency
+
+T1
+--
+a (PK),  b,  c,  d
+
+a --> b
+a --> c
+c --> d --> Transitive Dependency
+
+ER Diagram  
+----------
+  --> pictorial representation of entire db showing tables and relationships between them
+  --> used for documentation
+
+Symbols
+-------
+ - Entity --> Rectengular Box
+ - Attributes --> Oval / Elipse
+ - Relation --> Diamond
+
+Attribute Types
+---------------
+- Simple and Composite
+- Single valued and Multi Valued
+- Derived 
+
+struct stud
+{
+   int rno;
+   char name[20];
+   float marks;
+};
+
+struct stud s1;
+ s1.rno = 5;
+ s1.name = "dipali"
+int x;
+
+
+SQL (Structured Query Language)
+---
+- Introduced by IBM
+- ANSI standard
+- Case Insensitive Lang.
+- 4th Gen. Lang.
+- Non-Procedural Lang.
+
+SQL Sublanguages
+----------------
+- DQL/DRL --> SELECT
+- DDL     --> CREATE, ALTER, DROP, TRUNCATE, RENAME, COMMENT
+- DML	  --> INSERT, UPDATE, DELETE
+- TCL	  --> COMMIT, ROLLBACK, SAVEPOINT
+- DCL	  --> GRANT, REVOKE
+
+
+
+

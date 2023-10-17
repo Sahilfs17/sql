@@ -1,0 +1,903 @@
+RDBMS
+-------
+MYSQL
+Oracle
+PostGres
+SQL Sever
+DB2
+
+
+SQL
+---
+ - ANSI accepted as a std db lang.
+ - Case Insensitive Lang
+ - 4th Gen. Lang.
+ - Non-Procedual Lang.
+
+SQL Sublanguages
+----------------
+ - DQL/DRL --> SELECT --> capabilities --> Projection, Selection , Join
+ - DDL --> CREATE, ALTER, DROP, TRUNCATE, RENAME, COMMENT --> All DDLs issue COMMIT implicitely
+ - DML --> INSERT, UPDATE, DELETE
+ - DCL --> GRANT, REVOKE
+ - TCL --> COMMIT, ROLLBACK, SAVEPOINT
+
+
+CONN
+Enter User-name: <username>/<password>[@<dbname>]
+
+CONN dipali/123@mydb
+conn aakanksha/123@mydb1
+
+
+SELECT {* | <col.list> | <expr.list>}
+   FROM <tablename>
+   [WHERE <cond.(s)>]   -- To fileter the rows
+   [GROUP BY <expr.(s)>
+	[HAVING <cond.(s)>]]  -- To filter the groups
+   [ORDER BY <expr.(s)>]
+   [OFFSET <N> ROWS FETCH NEXT <N> ROWS ONLY];
+
+SELECT		(5)
+  FROM		(1)
+  WHERE		(2)
+  GROUP BY	(3)
+  HAVING	(4)
+  ORDER BY	(6)
+
+
+Subqueries
+----------
+    Q1(Q2(Q3))
+     0	1   2
+      
+SELECT (SELECT...)....
+  FROM (SELECT...)
+  WHERE (SELECT...)
+  GROUP BY
+  HAVING (SELECT...)
+  ORDER BY   (SELECT...)
+
+   - Single-row --> s.r. relational operators --> >, <, >=, <=, =, !=, between, like
+   - Multiple-row --> m.r. relational operators --> IN, ANY, ALL
+
+	>ALL	> MAX
+	<ALL	< MIN
+	>ANY	> MIN
+	<ANY	< MAX
+	=ANY	IN	
+   	=ALL	Not Possible
+
+   - Simple /Normal Subquery
+   - CO-related subquery
+	Q1(Q2)
+
+	Q1....from emp  (Q2.... from dept where deptno = emp.deptno)
+	Q1....from emp e(Q2.... from EMP where deptno = e.deptno)
+
+
+    --- X
+    --- X
+    ---
+    ---
+    ---
+
+
+
+
+   - EXISTS Relational operator
+
+     SELECT .......
+        FROM ....
+        WHERE EXISTS(SELECT...FROM....WHERE ....)
+
+
+>ANY >MIN
+<ANY <MAX
+=ANY  IN
+>ALL >MAX
+<ALL <MIN
+=ALL -- ILLOGICAL 
+
+
+
+- Arithmetic Operators
+  ====================
+   +, -, *, /
+
+	(A + B) * (C / D)
+
+- Concatenation Operator
+  ======================
+   ||
+
+  first_name = "dipali"
+   last_name = "shah"
+
+  first_name || ' ' || last_name = "dipali shah"
+   
+- DISTINCT Operator
+  =================
+
+- Relational Operators
+  ====================
+  >, <, <=, <=, =, !=
+
+  - Default date format in Oracle is 'DD-MON-YY'
+
+- Logical Operators
+  =================
+  AND, OR, NOT
+    2	3    1
+
+	- WHERE (<cond.1> OR <cond.2>) AND NOT <cond.3>
+
+- SQL Relational Operators
+  ========================
+  IN, BETWEEN, LIKE, IS NULL
+		%, _
+
+  WHERE DEPTNO = 10, 20, 30
+  WHERE DEPTNO = 10 OR DEPTNO = 20 OR DEPTNO = 30
+   WHERE DEPTNO IN(10, 20, 30)
+
+A = 5
+B = NULL
+
+
+IF A > B
+
+    WHERE DEPTNO = 10,20,30
+    WHERE DEPTNO = 10 OR DEPTNO = 20 OR DEPTNO = 30
+    WHERE DEPTNO IN(10, 20, 30)
+
+- SQL Built-in Functions
+  ======================
+    - Single - row fns
+	- Character fns
+	- Number fns
+	- Date fns
+	- Conversion fns
+ 	- Misc/General
+
+  - Multiple row functions/ Group Fns./ Aggregate Fns
+
+Character Functions
+-------------------
+UPPER(<argC1>)
+LOWER(<argC1>)
+INITCAP(<argC1>)
+LENGTH(<argC1>)
+CONCAT( <argC1>, <argC2>)
+	F1(F2(F3())  --> Function Call Nesting
+
+SUBSTR(<main str.>, <offset> [,<no. of chrs. to be retrieved>])
+   - substr('dipali', 2, 3) = ipa
+   - substr('dipali', 2) = ipali
+   - substr('dipali', -2, 2) = li
+   - substr('dipali', 2, -3) --> ERROR
+
+
+INSTR(<main str.>, <search str.> [, <offset> [,<no. of occurance>]])
+   - instr('dipali', 'i', 1, 1) = 2
+   - instr('dipali', 'i') = 2
+   - instr('dipali', 'i', 1, 2) = 6
+   - instr('dipali', 'i', 3, 1) = 6
+   - instr('dipali', 'i', 3, 2) = 0
+
+
+
+
+TRIM([{LEADING | TRAILING} <chr. to be trimmed> FROM] <main str.>)
+LTRIM(<argC1>)
+RTRIM(<argC1>)
+LPAD(<main str.>, <size after padding>, <str. to be padded>)
+RPAD(<main str.>, <size after padding>, <str. to be padded>)
+
+Amount: ****12,000/-
+
+SOUNDEX(<string>)
+REPLACE(<main str.>, <search str.>, <replace str.>)
+
+Number Functions
+----------------
+ABS(<argN1>)  -- abs(-234.56) = 234.56
+
+ROUND(<no.> [, <no. of deci.places>]) 
+    - round(123.56789, 2) = 123.57
+    - round(123.56789) = 124
+  
+TRUNC(<no.> [, <no. of deci.places>])  
+    - trunc(123.56789, 2) = 123.56
+    - trunc(123.56789) = 123
+
+CEIL(<argN1>) -- nearest integer which is greter than the given no
+    - ceil(123.01) = 124
+
+FLOOR(<argN1>) -- nearest integer which is less than the given no
+    - floor(123.99) = 123
+
+MOD(<no1>, <no2>) -- mod(100, 17) = 15
+
+POWER(<no1>, <no2>) -- power(10,4) = 10000
+SQRT(<no1>) -- sqrt(100) = 10
+
+
+Date Functions
+--------------
+SYSDATE
+    -- Date Arithmetic	
+       ----------------
+	- <dt> + <no.> = <dt. after adding no of days>
+	- <dt> - <no.> = <dt. after subtracting no of days>
+	- <dt1> - <dt2> = <no of days passed between 2 dates>
+        - <dt> + <dt>  = <error>
+MONTHS_BETWEEN(<dt1> , <dt2>)
+ADD_MONTHS(<dt>, <no . of months>)
+NEXT_DAY(<dt.>, <day of week>)
+
+Conversion Functions
+--------------------
+
+- Basic Data types
+  ----------------
+  - character - alphanumeric
+  - Numeric
+  - Date
+
+  - C to D
+  - D to C
+  - C to N
+  - N to C
+  - N to D -- error
+  - D to N -- error
+
+TO_CHAR({<no.> | <dt.>} ,[<format>])
+    - Number formats
+      --------------
+       - 9 -- represents a digit '99999'
+       - . -- represents a decimal '99999.99'
+       - , -- thousands seperator '99,999.99'
+       - L -- represents local currency symbol 'L99,999.99'
+       - 0 -- represents leading 0s. 'L09,999.99'
+    - Date formats
+      ------------
+      - DD  -- day of month
+      - D   -- day of week  (1,2,...)
+      - DDD -- day of year
+      - DAY -- day of week ('SUNDAY', MONDAY....)
+      - DY  -- day of week ('SUN', 'MON'...)
+      - MM    -- (01,02,..)
+      - MONTH -- (JANUARY, FEBRUARY...)
+      - MON   -- (JAN, FEB...)
+      - YYYY
+      - YY
+      - RR
+      - HH MI SS AM HH24
+      - TH
+      - FM
+
+-- 9 JUNE, 2021, 09:53:30 AM
+  
+    TO_CHAR(SYSDATE, 'DD MONTH, YYYY HH:MI:SS AM')
+
+TO_DATE(<date literal> [,<format>])   -- To convert a date literal to date type explicitly
+    TO_DATE('01-06-2005', 'DD-MM-YYYY')
+
+TO_NUMBER(<chr.expr.>)
+
+Misc./General Functions
+-----------------------
+USER
+NVL(<arg1>, <arg2>) -- used to convert null to non-null val.
+
+
+
+X= NULL
+Y=10
+    NVL(X, Y)
+
+DECODE( <arg1>, <arg2>, <arg3>,
+               <arg4>, <arg5>,
+                   ...
+	 	<argN>, <argN+1>
+		[,<default val.>])
+arg1 = arg2
+
+MANAGER 	20%
+SALESMAN	10%
+CLERK		5%
+Others		1%
+
+
+
+
+CASE Expression
+---------------
+CASE WHEN <cond.1> THEN <ret.val.1>
+     WHEN <cond.2> THEN <ret.val.2>
+	...
+     WHEN <cond.N> THEN <ret.val.N>
+  [ELSE <deffault val.>]
+END
+
+
+SA_MAN  	20%
+IT_PROG 	10%
+ST_CLERK 	 5%
+Others    	 1%
+
+SELECT FIRST_NAME, JOB_ID, SALARY, CASE WHEN JOB_ID = 'SA_MAN' THEN SALARY * .2
+					WHEN JOB_ID = 'IT_PROG' THEN SALARY * .1
+					WHEN JOB_ID = 'ST_CLERK' THEN SALARY * .05
+				    ELSE SALARY * .01
+				   END AS INCENTIVE
+  FROM EMPLOYEES;
+
+
+
+
+Group Functions
+===============
+MIN(<arg1>) -- Argument should be either col./expr.--should not be literal
+MAX(<arg1>)
+COUNT(<arg1>)  -- Counts no of rows
+SUM(<argN1>)
+AVG(<argN1>)
+
+min(sal)
+sum(sal)
+sum(sal + comm)
+sum(5000)
+
+
+Joins
+-----
+Inner 
+OUter
+  - Left Outer
+  - Right Outer
+  - Full Outer
+Equi
+Non-Equi
+Self
+Cross / Cartesian Product
+
+Keywords to perform join
+------------------------
+[INNER] JOIN ON (<join cond.(s)>)
+LEFT OUTER JOIN ON (<join cond.(s)>)
+RIGHT  OUTER JOIN ON (<join cond.(s)>)
+FULL OUTER JOIN ON (<join cond.(s)>)
+
+
+SELECT E.ENAME, E.SAL, D.DNAME, E.DEPTNO
+  FROM EMP E JOIN  DEPT D ON (E.DEPTNO = D.DEPTNO)
+
+AAA	7000	ACCOUNTS
+BBB	1500	MKTG
+CCC	2000	MKTG
+EEE	1200	IT
+FFF	2500	ACCOUNTS
+
+  DEPT
+  ----
+DEPTNO		DNAME		LOC
+------		----------	--------
+10		ACCOUNTS	---			
+20		MKTG		---			
+30		IT		---			
+40		RESEARCH	---			
+
+  EMP          						
+  ----							
+EMPNO	ENAME	JOB	SAL	MGR	DEPTNO
+------	-------	------	------	-----	---
+101	AAA	CLERK	7000	NULL	10
+102	BBB	--	1500	101	20
+103	CCC	--	2000	101	20
+104	DDD	--	1700	102	NULL
+105	EEE	--	1200	103	30
+106	FFF	--	2500	102	10
+
+
+GRADES
+------
+GRADE	MIN_SAL		MAX_SAL
+-----	-------		-------
+A	   500		    999
+B	  1000		   1999
+C	  2000		   2999
+D	  3000		   5000
+
+[INNER] JOIN ON(<join cond.>)
+LEFT OUTER JOIN ON(<join cond.>)
+RIGHT  OUTER JOIN ON(<join cond.>)
+FULL OUTER JOIN ON(<join cond.>)
+
+SELECT E.ENAME, E.SAL, D.DNAME
+  FROM EMP E JOIN DEPT D ON(E.DEPTNO = D.DEPTNO)
+
+SELECT E.ENAME, E.SAL, D.DNAME
+  FROM EMP E JOIN DEPT D ON(E.DEPTNO != D.DEPTNO)
+
+
+
+DDL Statements  --> Issues commit, updates all corresponding Data Dictionary Tables
+--------------
+CREATE TABLE <tablename>(
+  <col.1> <datatype>(<size>) [[CONSTRAINT <constr.name>]<constr.type>] [DEFAULT <val.>],
+  <col.2> <datatype>(<size>) [[CONSTRAINT <constr.name>]<constr.type>] [DEFAULT <val.>],
+    ......
+  <col.N> <datatype>(<size>) [[CONSTRAINT <constr.name>]<constr.type>] [DEFAULT <val.>],
+  [[CONSTRAINT <constr.name>]<constr.type>(<col.list>)]);
+
+)
+
+DEPT1 (Parent)
+-----------
+deptno	pk
+dname	not null
+loc	'pune', 'delhi', 'mumbai'
+
+
+EMP1 (Child)
+----------
+empno	pk
+ename	nn
+job
+doj
+mgrno	fk (emp1 (empno))
+sal	> 0
+deptno	fk  (dept1(deptno))
+
+CREATE TABLE DEPT1(DEPTNO NUMBER(2) CONSTRAINT DEPTNO_PK PRIMARY KEY,
+		   DNAME VARCHAR2(20) CONSTRAINT DNAME_NN NOT NULL,
+		   LOC VARCHAR2(20) CONSTRAINT CHECK(LOC IN('PUNE', 'MUMBAI', 'DELHI')));
+
+CREATE TABLE EMP1(EMPNO NUMBER(3) CONSTRAINT EMPNO_PK PRIMARY KEY,
+		  ENAME VARCHAR2(20) CONSTRAINT ENAME_NN NOT NULL,
+		  JOB VARCHAR2(10) DEFAULT 'CLERK',
+		  DOJ DATE, MGRNO NUMBER(3),
+                  SAL NUMBER(8,2) CHECK(SAL > 0),
+		  DEPTNO NUMBER(2) REFERENCES DEPT1(DEPTNO),
+		  CONSTRAINT MGRNO_FK FOREIGN KEY(MGRNO) REFERENCES EMP1(EMPNO));
+
+
+YYYY/MM/DD
+MM/DD/YYYY
+
+DD-MON-YY
+
+
+
+
+
+30 chrs
+A-Z
+a-z
+0-9
+_,#,$
+
+Integrity Constraints
+----------------------
+  - Domain Integrity Constraints
+	- NOT NULL
+	- CHECK
+  - Entity  Integrity Constraints
+	- UNIQUE
+	- PRIMARY KEY
+  - Referential  Integrity Constraints
+	- FOREIGN KEY
+
+
+CREATE TABLE <new table> AS <select statement>; -- Creating a table based on another table
+
+CHAR - Fixed length Data type - 2000 bytes
+VARCHAR2 - Variable length Data type - 4000 bytes
+
+STUDNAME VARCHAR2(20)
+
+ 'DIPALI'
+
+NUMBER(P [,S])
+  salary number(7, 2)
+  99999.99
+
+INTEGER
+
+DATE - 7 bytes   - to hold date  and time both
+
+TIMESTAMP[(<precesion>)] 0-9
+	10:59:30.000000
+
+TIMESTAMP WITH TIME ZONE
+
+TIMESTAMP WITH LOCAL TIME ZONE
+
+RAW - to hold binary data - 4000 bytes
+
+LONG - 2 gb --> Alph-numeric values
+LONG RAW - 2gb --> Binary values
+
+CLOB -  -- Character Large Object - 4gb --> Internal Lobs
+BLOB -   -- Binary Large Object - 4gb --> Internal Lobs
+BFILE - -- Binary file - 4gb --> External Lobs
+
+Integrity Constraints
+---------------------
+- NOT NULL
+- CHECK
+- UNIQUE
+- PRIMARY KEY
+- FORIEGN KEY  -- referential integrity
+	Keywords --> FOREIGN KEY, REFERENCES
+	Behaviours --> Restrict, Cascade (ON DELETE CASCADE), Nullify (ON DELETE SET NULL)
+
+USER_TABLES
+USER_TAB_COLUMNS
+USER_CONSTRAINTS
+DICT
+
+
+DEPT1
+----
+DEPTNO PK
+DNAME  NOT NULL
+LOC  --> 'MUMBAI', 'PUNE', 'DELHI'
+
+
+EMP1
+---
+EMPNO PK
+ENAME NOT NULL
+JOB 'CLERK'
+DOJ
+SAL > 0
+DNO FK  -- DEPT1(DEPTNO)
+
+
+ALTER TABLE <tablename> {DROP CONSTRAINT <constr.name> [CASCADE]| DROP PRIMARY KEY [CASCADE] |
+			 ADD [CONSTRAINT <constr.name>]<constr.type>(<col.list>) |
+			  ADD COLUMN  <col.> <datatype>(<size>) [[CONSTRAINT <constr.name>]<constr.type>] [DEFAULT <val.>]
+			  ADD (<col.definitions>) |
+			  DROP COLUMN <col.name> [CASCADE CONSTRAINTS]| DROP (<col.list>) [CASCADE CONSTRAINTS] | 
+			  SET UNUSED COLUMN <col.name> |SET UNUSED (<col.list>) |
+			 {ENABLE | DISABLE} CONSTRAINT <constr.name> |  
+			 MODIFY <col.name> <new dtype> (<new size>)...... | 
+			 RENAME COLUMN <old name> TO <new name>}
+
+DROP TABLE <tablename> [CASCADE CONSTRAINTS];
+
+TRUNCATE TABLE <tablename>;
+
+RENAME <old obj. name> TO <new obj.name>;
+
+COMMENT ON TABLE <tablename> IS <comment>;  -- USER_TAB_COMMENTS
+
+COMMENT ON COLUMN <tablename>.<colname> IS <comment>; -- USER_COL_COMMENTS
+
+CREATE TABLE <new tablename> AS <select statement>;
+
+  FULL_NAME, TOTAL_INCOME, DEPARTMENT_ID
+
+
+
+
+DML Statements
+--------------
+INSERT INTO <tablename>[(<col.list>)] VALUES(<val.list>);
+
+INSERT INTO <tablename> (<select st.>);
+
+UPDATE <tablename> SET <col.1> = <new val.>, <col.2> = <new val.>.....
+  	[WHERE <cond.(s)>];
+
+DELETE [FROM] <tablename> [WHERE <cond.(s)>];
+
+MERGE INTO <destinationtable> <alias>
+   USING <source table> <alias>
+    ON <matching crieteria>
+   WHEN MATCHED THEN
+	UPDATE ....
+ 	[DELETE [WHERE <cond.s(s)>]]
+   WHEN NOT MATHCED THEN
+	INSERT ......
+
+
+TCL
+---
+COMMIT [WORK];
+ROLLBACK [TO <savepoint name>];
+SAVEPOINT <savepoint name>;
+
+ACC1		10000	  9000
+ACC2		 5000	  6000
+		15000	 15000
+
+BEGIN;
+
+  UPDATE ACCOUNTS SET BAL = BAL - 1000 WHERE ACNO = 'ACC1';
+  UPDATE ACCOUNTS SET BAL = BAL + 1000 WHERE ACNO = 'ACC2';
+
+
+{COMMIT | ROLLBACK};
+
+
+---TRANSACTION STARTS....
+
+BEGIN;
+   UPDATE EMPLOYEES.......
+   INSERT INTO DEPART.....
+   SAVEPOINT S1;
+   UPDATE DEPART....
+   INSERT SALGRADE..
+   SAVEPOINT S2;
+   DELETE EMP....
+   INSERT EMP.....
+
+
+ROLLBACK TO S1;
+
+
+ACCTS
+-----
+  A		B
+  5000	 +    10000 = 15000
+- 1000 	            = 14000
+
+  4000	      
+COMMIT;
+
+Oops
+
+Other Objects
+-------------
+- Views
+- Sequences
+- Synonyms
+- Indexes  
+
+
+Views
+-----
+CREATE [OR REPLACE] VIEW <view name>
+  AS <select statement>
+[{WITH CHECK OPTION | WITH READ ONLY}];
+
+- Simple Views
+- Complex Views
+	- when the view's query is using joins, DISTINCT keyword, singlerow fns., group fns or
+	  GROUP BY clause, then view becomes complex.
+	- Against complex views, DMLs are not allowed. To make them possible, we should create
+	  INSTEAD OF triggers.
+
+DROP VIEW <viewname>;
+
+USER_VIEWS
+
+
+Sequences
+---------
+CREATE SEQUENCE <seq.name>
+  [START WITH <val.>]
+  [INCREMENT BY <val.>]
+  [{MAXVALUE <val.> | NOMAXVALUE}]
+  [{MINVALUE <val.> | NOMINVALUE}]
+  [{CYCLE | NOCYCLE}]
+  [{CACHE <val.> | NOCACHE}];
+
+ALTER SEQUENCE <seq.name>
+  [INCREMENT BY <val.>]
+  [{MAXVALUE <val.> | NOMAXVALUE}]
+  [{MINVALUE <val.> | NOMINVALUE}]
+  [{CYCLE | NOCYCLE}]
+  [{CACHE <val.> | NOCACHE}];
+
+<seq.>.NEXTVAL
+<seq.>.CURRVAL
+
+DROP SEQUENCE <seq.name>;
+
+USER_SEQUENCES
+
+INSERT INTO EMP VALUES((SELECT MAX(EMPNO) + 1 FROM EMP), 'ABC', 'CLERK', 10000, 10);
+
+
+CREATE GLOBAL TEMPORARY TABLE <tablename> (<col.definitions>)[{ON COMMIT PRESERVE ROWS | ON COMMIT DELETE ROWS}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Indexes
+-------
+CREATE [UNIQUE] INDEX <indexname> ON <tablename>(<col.list>);
+
+CREATE INDEX DEPTNO_IDX ON EMP(DEPTNO);
+
+CREATE INDEX NAME_IDX ON EMPLOYEES(LAST_NAME, FIRST_NAME);
+
+
+
+DROP INDEX <indexname>;
+
+USER_INDEXES
+
+SELECT EMPNO, ENAME, JOB FROM EMP WHERE SAL > 5000;
+
+SELECT ENAME, JOB FROM EMP WHERE EMPNO = 106;
+
+SAL_IDX
+-------
+ROWID		SAL
+-----		------
+1		1000
+2		1500
+3		1500
+4		....
+		5000
+100		5500
+		..
+		..
+		..
+		
+
+
+
+ROWID		DEPT_ID
+111		10
+2222		10
+333		...
+444		20
+555		20
+		30
+		..
+		..
+		110
+		110
+
+
+
+
+SYNONYMS
+--------
+CREATE [PUBLIC] SYNONYM <synonymname> FOR <obj.name>;
+
+USER_SYNONYMS
+
+DROP SYNONYM <synonymname>;
+
+
+
+SET Operators
+---------------
+UNION
+INTERSECT
+MINUS
+UNION ALL
+
+<Q1>
+minus
+<Q2>;
+
+
+AUB = {1,2,3,4,5,6,7,8}
+AIB = {4,5}
+A-B = {1,2,3}
+
+
+WITH Clause
+-------------
+WITH <query name1> AS (<sub query>),
+     <query name2> AS (<sub query>)
+       ......
+<main query>
+
+
+
+SELECT E.ENAME, E.SAL, E.DEPTNO, E1.AVG_SAL
+  FROM EMP E JOIN (SELECT DEPTNO, AVG(SAL) AVG_SAL FROM EMP GROUP BY DEPTNO) E1 ON(E.DEPTNO = E1.DEPTNO)
+  WHERE E.SAL > E1.AVG_SAL;
+
+
+CREATE OR REPLACE VIEW V1 AS SELECT DEPTNO, AVG(SAL) AVG_SAL FROM EMP GROUP BY DEPTNO;
+
+SELECT E.ENAME, E.SAL, E.DEPTNO, V1.AVG_SAL
+  FROM EMP E JOIN V1 ON(E.DEPTNO = V1.DEPTNO)
+  WHERE E.SAL > V1.AVG_SAL;
+
+
+
+
+
+f1(f2(f3()))
+
+
+
+STUDENT
+-------
+101	"DIPALI"	"SDFSDFDSF"
+102	"DEEPA"	"SDWRETRE"
+103	"NAVEEN"	"6DGDFG"
+104	"BHAGYALAXMI"	"56567ERTERT"
+
+
+COURSE
+------
+"C-101"	"SQL"		4
+"C-102"	"PYTHON"	10
+"C-103"	"JAVA"		12
+
+STUD_COURSE
+-----------
+101	"C-101"	"2023-01-01"	"2023-01-14"
+101	"C-102"	"2023-01-04"	"2023-01-14"
+102	"C-101"	"2023-01-01"	"2023-01-14"
+103	"C-103"	"2023-01-01"	"2023-01-14"
+
+
+
+
+
+Multitable Inserts
+------------------
+ - Unconditional
+   -------------
+INSERT ALL
+  INTO <table1>(<col.list>) VALUES(<value list>)
+  INTO <table2>(<col.list>) VALUES(<value list>)
+    ...
+  INTO <tableN>(<col.list>) VALUES(<value list>)
+(<subquery>)
+
+ - Conditional Insert
+   ------------------
+   - ALL
+     ---
+INSERT ALL
+  WHEN <cond.1> THEN
+	INTO <table1>(<col.list>) VALUES(<value list>)
+  WHEN <cond.2> THEN
+  	INTO <table2>(<col.list>) VALUES(<value list>)
+    ...
+  WHEN <cond.N> THEN
+  	INTO <tableN>(<col.list>) VALUES(<value list>)
+  [ELSE
+  	INTO <tableN>(<col.list>) VALUES(<value list>)]
+(<subquery>);
+
+   - First
+     -----
+
+INSERT FIRST
+  WHEN <cond.1> THEN
+	INTO <table1>(<col.list>) VALUES(<value list>)
+  WHEN <cond.2> THEN
+  	INTO <table2>(<col.list>) VALUES(<value list>)
+    ...
+  WHEN <cond.N> THEN
+  	INTO <tableN>(<col.list>) VALUES(<value list>)
+  [ELSE
+  	INTO <tableN>(<col.list>) VALUES(<value list>)]
+(<subquery>);
+
+
+
+
+
+
+
+
+
+
+
